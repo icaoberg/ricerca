@@ -209,5 +209,3 @@ def ranking( alpha, candidates, goodSet, normalization='zscore' ):
 
  return [sorted_iids, sorted_scores]
 
-
-
