@@ -1,6 +1,4 @@
-# -*- coding: cp949 -*-
-
-# Author: Ivan Cao-Berg, Baek Cho and Jennifer Bakal
+# Authors: Ivan Cao-Berg, Baek Cho and Jennifer Bakal
 # Created: December, 2011
 #
 # Copyright (C) 2012 Murphy Lab
@@ -32,8 +30,7 @@ from operator import itemgetter, attrgetter
 
 def distance( alpha, candidate, goodSet ):
  '''
- Calculates the distance between a candidate and every member
- of the good set.
+ Calculates the distance between a candidate and every member of the good set.
  @return distance
  '''
 
@@ -70,7 +67,8 @@ def distance( alpha, candidate, goodSet ):
 
 def norm( A, B, alpha=2 ):
  '''
- Calculate the norm between vector A and B.
+ Calculate the norm between vector A and B
+
  @param A
  @param B
  @alpha
@@ -83,7 +81,8 @@ def norm( A, B, alpha=2 ):
 
 def featnorm(trainset, testset):
  '''
- Feature normalization.
+ Feature normalization
+
  @param train set
  @param test set
  @return normalized train and test sets
@@ -128,7 +127,8 @@ def featnorm(trainset, testset):
 
 def featnorm_z(trainset, testset):
  '''
- z-Score feature normalization.
+ z-Score feature normalization
+
  @param train set
  @param test set
  @return normalized train and test sets
@@ -174,15 +174,13 @@ def featnorm_z(trainset, testset):
 
 def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  '''
- Returns a ranked list.
+ Returns a ranked list
+
  @param alpha
  @param candidates
  @param good set
  @return ranked list
  '''
-
- #standard deviation of features in the dataset
- #std = numpy.std(numpy.array( goodSet[2]) )
 
  #normalize the feature vector
  if normalization == 'zscore':
