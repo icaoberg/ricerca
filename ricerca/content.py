@@ -1,7 +1,7 @@
 # Authors: Ivan Cao-Berg, Baek Cho and Jennifer Bakal
 # Created: December, 2011
 #
-# Copyright (C) 2012 Murphy Lab
+# Copyright (C) 2011-2013 Murphy Lab
 # Lane Center for Computational Biology
 # School of Computer Science
 # Carnegie Mellon University
@@ -31,7 +31,6 @@ from operator import itemgetter, attrgetter
 def distance( alpha, candidate, goodSet ):
  '''
  Calculates the distance between a candidate and every member of the good set.
- @return distance
  '''
 
  very_big = float(numpy.finfo( numpy.float32 ).max)/2;
@@ -68,12 +67,8 @@ def distance( alpha, candidate, goodSet ):
 def norm( A, B, alpha=2 ):
  '''
  Calculate the norm between vector A and B
-
- @param A
- @param B
- @alpha
- @return norm
  '''
+
  alpha = numpy.float64(1.0*alpha)
  A = numpy.float64( numpy.array( A ) )
  B = numpy.float64( numpy.array( B ) )
@@ -82,10 +77,6 @@ def norm( A, B, alpha=2 ):
 def featnorm(trainset, testset):
  '''
  Feature normalization
-
- @param train set
- @param test set
- @return normalized train and test sets
  '''
 
  trainset_id = []
@@ -128,10 +119,6 @@ def featnorm(trainset, testset):
 def featnorm_z(trainset, testset):
  '''
  z-Score feature normalization
-
- @param train set
- @param test set
- @return normalized train and test sets
  '''
 
  trainset_id = []
@@ -175,11 +162,6 @@ def featnorm_z(trainset, testset):
 def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  '''
  Returns a ranked list
-
- @param alpha
- @param candidates
- @param good set
- @return ranked list
  '''
 
  #normalize the feature vector
