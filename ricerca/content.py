@@ -39,6 +39,10 @@ from operator import itemgetter, attrgetter
 def loadContentDB(filename):
     '''
     Helper method that loads a content database from file on disk
+
+    :param filename: the filename of a file containing valid content database
+    :type alpha: string
+    :rtype: content database
     '''
 
     try:
@@ -47,7 +51,7 @@ def loadContentDB(filename):
         import pickle
 
     try:
-        cdb=pickle.load(open(filename))
+        cdb = pickle.load(open(filename))
         return cdb
     except:
         print "Unable to load file: " + filename
@@ -56,6 +60,10 @@ def loadContentDB(filename):
 def getDBscales(cdb,query_scale):
     '''
     Helper method that returns the scales from a content database
+
+    :param cdb: content database
+    :type cdb: dictionary
+    :rtype: scales
     '''
 
     keys=cdb.keys()
@@ -196,6 +204,14 @@ def rankingWrapper(contentDB, image_refs_dict, processIDs, processSearchSet):
 def distance( alpha, candidate, goodSet ):
  '''
  Calculates the distance between a candidate and every member of the good set
+
+ :param alpha: alpha
+ :type alpha: double
+ :param candidate: a feature vector 
+ :type candidates: list
+ :param goodSet: a list of feature vectors
+ :type goodSet: array
+ :rtype: distance
  '''
 
  very_big = float(numpy.finfo( numpy.float32 ).max)/2;
@@ -231,7 +247,13 @@ def distance( alpha, candidate, goodSet ):
 
 def norm( A, B, alpha=2 ):
  '''
- Calculate the norm between vector A and B
+ Calculates the norm between vectors A and B
+
+ :param A: a vector
+ :type A: list of doubles
+ :param B: a vector 
+ :type B: list of doubles
+ :rtype: norm between vectors A and B
  '''
 
  alpha = numpy.float64(1.0*alpha)
@@ -242,6 +264,12 @@ def norm( A, B, alpha=2 ):
 def featnorm(trainset, testset):
  '''
  Feature normalization.
+
+ :param trainset: training set
+ :type trainset: list of feature vectors
+ :param testset: test set 
+ :type testset: list of feature vectors
+ :rtype: normalized train and test sets
  '''
 
  trainset_id = []
@@ -284,6 +312,12 @@ def featnorm(trainset, testset):
 def featnorm_z(trainset, testset):
  '''
  z-Score feature normalization.
+
+ :param trainset: training set
+ :type trainset: list of feature vectors
+ :param testset: test set 
+ :type testset: list of feature vectors
+ :rtype: normalized train and test sets
  '''
 
  trainset_id = []
@@ -327,6 +361,16 @@ def featnorm_z(trainset, testset):
 def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  '''
  Returns a ranked list
+
+ :param alpha: alpha
+ :type alpha: double
+ :param candidates: list of image ids from candidates
+ :type candidates: double
+ :param goodSet: list of image ids from members of the good set
+ :type goodSet: list of longs
+ :param normalization: normalization parameter. default value is 'zscore'
+ :type normalization: string
+ :rtype: list of ranked image 
  '''
 
  #standard deviation of features in the dataset
