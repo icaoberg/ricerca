@@ -36,27 +36,37 @@ import numpy
 import scipy
 from operator import itemgetter, attrgetter
 
-
 def loadContentDB(filename):
+    '''
+    Helper method that loads a content database from file on disk
+    '''
+
     try:
         import cPickle as pickle
     except:
         import pickle
+
     try:
         cdb=pickle.load(open(filename))
         return cdb
     except:
+        print "Unable to load file: " + filename
         return {}
 
-
 def getDBscales(cdb,query_scale):
+    '''
+    Helper method that returns the scales from a content database
+    '''
+
     keys=cdb.keys()
     keys.remove('info')
     dbkeys=[v for v in keys if v>.75*query_scale and v<1.5*query_scale]
     return dbkeys
 
-
 def rankingWrapper(contentDB, image_refs_dict, processIDs, processSearchSet):
+    '''
+    Wrapper method that performs a ranking given a content database
+    '''
 
     '''
     @param contentDB
@@ -185,9 +195,7 @@ def rankingWrapper(contentDB, image_refs_dict, processIDs, processSearchSet):
 
 def distance( alpha, candidate, goodSet ):
  '''
- Calculates the distance between a candidate and every member
- of the good set.
- @return distance
+ Calculates the distance between a candidate and every member of the good set
  '''
 
  very_big = float(numpy.finfo( numpy.float32 ).max)/2;
@@ -223,11 +231,7 @@ def distance( alpha, candidate, goodSet ):
 
 def norm( A, B, alpha=2 ):
  '''
- Calculate the norm between vector A and B.
- @param A
- @param B
- @alpha
- @return norm
+ Calculate the norm between vector A and B
  '''
  alpha = numpy.float64(1.0*alpha)
  A = numpy.float64( numpy.array( A ) )
@@ -237,9 +241,6 @@ def norm( A, B, alpha=2 ):
 def featnorm(trainset, testset):
  '''
  Feature normalization.
- @param train set
- @param test set
- @return normalized train and test sets
  '''
 
  trainset_id = []
@@ -282,9 +283,6 @@ def featnorm(trainset, testset):
 def featnorm_z(trainset, testset):
  '''
  z-Score feature normalization.
- @param train set
- @param test set
- @return normalized train and test sets
  '''
 
  trainset_id = []
@@ -328,10 +326,6 @@ def featnorm_z(trainset, testset):
 def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  '''
  Returns a ranked list.
- @param alpha
- @param candidates
- @param good set
- @return ranked list
  '''
 
  #standard deviation of features in the dataset
