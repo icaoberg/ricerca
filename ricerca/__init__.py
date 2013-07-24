@@ -1,7 +1,7 @@
 # Author: Ivan E. Cao-Berg (icaoberg@scs.cmu.edu)
 # Created: June 1, 2012
 #
-# Copyright (C) 2012 Murphy Lab
+# Copyright (C) 2012-2013 Murphy Lab
 # Lane Center for Computational Biology
 # School of Computer Science
 # Carnegie Mellon University

@@ -3,7 +3,7 @@
 # Author: Ivan Cao-Berg, Baek Cho and Jennifer Bakal
 # Created: December, 2011
 #
-# Copyright (C) 2012 Murphy Lab
+# Copyright (C) 2011-2013 Murphy Lab
 # Lane Center for Computational Biology
 # School of Computer Science
 # Carnegie Mellon University
@@ -233,6 +233,7 @@ def norm( A, B, alpha=2 ):
  '''
  Calculate the norm between vector A and B
  '''
+
  alpha = numpy.float64(1.0*alpha)
  A = numpy.float64( numpy.array( A ) )
  B = numpy.float64( numpy.array( B ) )
@@ -325,7 +326,7 @@ def featnorm_z(trainset, testset):
 
 def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  '''
- Returns a ranked list.
+ Returns a ranked list
  '''
 
  #standard deviation of features in the dataset
