@@ -120,6 +120,8 @@ class TestRicerca(unittest.TestCase):
     def test_rankingWrapper(self):
         cdb = self.createContentDB()
         scale = self.scale * 1.1
+
+        # Positive and negative references
         im_ref_dict = {
             '2.0.0.0.0': [(scale, ''), 1],
             '5.0.0.0.0': [(scale, ''), -1]
@@ -138,12 +140,49 @@ class TestRicerca(unittest.TestCase):
         #print 'dscale', dscale
 
         self.assertEqual(dscale, self.scale)
-        self.assertEqual([f[0] for f in final_result],
+        self.assertEqual([f[0] for f in final_result[0]],
                          ['2.0.0.0.0',
                           '3.0.0.0.0',
                           '4.0.0.0.0',
                           '1.0.0.0.0',
                           '5.0.0.0.0'])
+        self.assertIsNone(final_result[1])
+
+        # Positive reference only
+        im_ref_dict = {
+            '2.0.0.0.0': [(scale, ''), 1],
+            }
+
+        final_result, dscale = content.rankingWrapper(
+            cdb, im_ref_dict, self.processIds, self.processSearchSet)
+
+        self.assertEqual(dscale, self.scale)
+        self.assertEqual([f[0] for f in final_result[0]],
+                         ['2.0.0.0.0',
+                          '4.0.0.0.0',
+                          '3.0.0.0.0',
+                          '1.0.0.0.0',
+                          '5.0.0.0.0'])
+        for a, b in zip(final_result[1][:-1], final_result[1][1:]):
+            self.assertTrue(a < b)
+
+        # Negative reference only
+        im_ref_dict = {
+            '5.0.0.0.0': [(scale, ''), -1],
+            }
+
+        final_result, dscale = content.rankingWrapper(
+            cdb, im_ref_dict, self.processIds, self.processSearchSet)
+
+        self.assertEqual(dscale, self.scale)
+        self.assertEqual([f[0] for f in final_result[0]],
+                         ['5.0.0.0.0',
+                          '1.0.0.0.0',
+                          '4.0.0.0.0',
+                          '3.0.0.0.0',
+                          '2.0.0.0.0'])
+        for a, b in zip(final_result[1][:-1], final_result[1][1:]):
+            self.assertLessEqual(a, b)
 
 
 
