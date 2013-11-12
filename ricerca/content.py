@@ -193,10 +193,11 @@ def rankingWrapper(contentDB, image_refs_dict, processIDs, processSearchSet):
     if pos_image_dict:
         if neg_image_dict: #there are both positive and negative samples
             final_result = combinePosandNeg(sorted_iids_pos,sorted_iids_neg)
+            final_result = (final_result, None)
         else:              #there are only positive samples
-            final_result = sorted_iids_pos
+            final_result = (sorted_iids_pos, sorted_scores_pos)
     elif neg_image_dict:     #there are only negative samples
-        final_result = sorted_iids_neg
+        final_result = (sorted_iids_neg, sorted_scores_neg)
 
     return final_result,dscale
 
