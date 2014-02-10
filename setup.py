@@ -23,16 +23,31 @@
 # For additional information visit http://murphylab.web.cmu.edu or
 # send email to murphy@cmu.edu
 
+import os
+from setuptools import setup
+
 #load the current version number of the package
 exec(compile(open('VERSION').read(),'VERSION', 'exec'))
 
-from distutils.core import setup
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-setup(name='ricerca',
-      version=__version__,
-      description='Content based search based on the algorithm from Wu, Faloutsos, Sycara and Payne. FALCON: Feedback Adaptive Loop for Content-Based Retrieval. Proceeding VLDB 2000 Proceedings of the 26th International Conference on Very Large Data Bases.',
-      author='Ivan Cao-Berg, Jennifer Bakal, Baek Hwan Cho and Robert F. Murphy',
-      maintainer='Robert F. Murphy',
-      maintainer_email='murphy@cmu.edu',
-      url='http://murphylab.web.cmu.edu/software/',
+setup(name = 'ricerca',
+      version = __version__,
+      description = ('Content-based search based on FALCON: '
+      	'Feedback Adaptive Loop for Content-Based Retrieval'),
+      long_description=read('README'),
+      author = 'Ivan Cao-Berg',
+      author_email = 'icaoberg@andrew.cmu.edu',
+      install_requires=[
+      	'numpy',
+      	'scipy',
+      	'numexpr',
+      	'cython',
+      	'tables'],
+      url = 'http://murphylab.web.cmu.edu/software/ricerca',
+      classifiers=[
+      	'Programming Language :: Python', 
+      	'Intended Audience :: Science/Research',
+      	'Intended Audience :: Developers'],
       py_modules=['ricerca.content'])
