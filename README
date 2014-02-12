@@ -1,25 +1,22 @@
-Ricerca for Python
+ricerca for Python
 ==================
-Ricerca is a python implementation of FALCON as described in 
 
-* Leejay Wu, Christos Faloutsos, Katia P. Sycara, and Terry R. Payne. 2000. FALCON: Feedback Adaptive Loop for Content-Based Retrieval. In Proceedings of the 26th International Conference on Very Large Data Bases (VLDB '00), Amr El Abbadi, Michael L. Brodie, Sharma Chakravarthy, Umeshwar Dayal, Nabil Kamel, Gunter Schlageter, and Kyu-Young Whang (Eds.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 297-306.
+About
+-----
+ricerca is a python implementation of FALCON: Feedback Adaptive Loop for Content-Based Retrieval. For more details on the algorithm please refer to the article 
 
-It was built as a component of OMERO.searcher as described in
+* Leejay Wu, Christos Faloutsos, Katia P. Sycara, and Terry R. Payne. 2000. FALCON: Feedback Adaptive Loop for Content-Based Retrieval. In Proceedings of the 26th International Conference on Very Large Data Bases (VLDB '00), Amr El Abbadi, Michael L. Brodie, Sharma Chakravarthy, Umeshwar Dayal, Nabil Kamel, Gunter Schlageter, and Kyu-Young Whang (Eds.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 297-306. http://www.cs.cmu.edu/~christos/PUBLICATIONS/vldb2k-falcon.pdf
 
-* Baek Hwan Cho, Ivan Cao-Berg, Jennifer Ann Bakal and Robert F. Murphy. 2012. OMERO.searcher: content-based image search for microscope images. Nature Methods 9, 633-634.
+For more information about ricerca, please visit http://murphylab.web.cmu.edu/software/ricerca/
 
-Pre-Requisites
-==============
-- numpy
-- scipy
-- tables
+Authors
+-------
+| Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy
+| Lane Center for Computational Biology
+| School of Computer Science
+| Carnegie Mellon University
+| http://lane.compbio.cmu.edu/
 
-To install this prerequisited in Ubuntu 12.04
-> sudo apt-get install update
-> sudo apt-get install python-numpy python-scipy python-tables
-
-Installation
-============
-Run
-> sudo python setup.py install
- 
+Reference 
+---------
+B.H. Cho, I. Cao-Berg, J.A. Bakal, and R.F. Murphy (2012) OMERO.searcher: Content-based image search for microscope images. Nature Methods 9:633-634. 
