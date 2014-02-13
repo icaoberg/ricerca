@@ -3,7 +3,7 @@ ricerca for Python
 
 About
 -----
-ricerca is a python package for content-based image searcher for microscope images, that uses a set of numerical features to describe each image and a method for combining them to measure similarity.
+ricerca is a python package for content-based image search for microscope images, that uses a set of numerical features to describe each image and a method for combining them to measure similarity.
 
 For more information about ricerca, please visit http://murphylab.web.cmu.edu/software/ricerca/
 
