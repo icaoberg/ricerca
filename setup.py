@@ -34,8 +34,7 @@ def read(fname):
 
 setup(name = 'ricerca',
       version = __version__,
-      description = ('Content-based search based using FALCON: '
-      	'Feedback Adaptive Loop for Content-Based Retrieval'),
+      description = ('Content-based image search'),
       long_description=read('README'),
       author = 'Ivan Cao-Berg',
       author_email = 'icaoberg@andrew.cmu.edu',
