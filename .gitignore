@@ -1,2 +1,4 @@
 build
 *.sh
+ricerca.egg-info/
+dist
