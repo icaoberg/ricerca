@@ -40,10 +40,7 @@ setup(name = 'ricerca',
       author_email = 'icaoberg@andrew.cmu.edu',
       install_requires = [
         'numpy>=1.4.1',
-        'scipy>=0.7.2',
-        'numexpr>=2.3',
-        'cython>=0.20',
-        'tables>=3.1.0',
+        'scipy>=0.7.2'
         ],
       url = 'http://murphylab.web.cmu.edu/software/ricerca',
       classifiers=[
