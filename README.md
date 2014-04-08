@@ -19,5 +19,5 @@ Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy. [Lane Center 
 
 References
 ----------
-* B.H. Cho, I. Cao-Berg, J.A. Bakal, and R.F. Murphy (2012) OMERO.searcher: Content-based image search for microscope images. Nature Methods 9:633-634.
-* Leejay Wu, Christos Faloutsos, Katia P. Sycara, and Terry R. Payne. 2000. FALCON: Feedback Adaptive Loop for Content-Based Retrieval. In Proceedings of the 26th International Conference on Very Large Data Bases (VLDB '00), Amr El Abbadi, Michael L. Brodie, Sharma Chakravarthy, Umeshwar Dayal, Nabil Kamel, Gunter Schlageter, and Kyu-Young Whang (Eds.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 297-306.
+* B.H. Cho, I. Cao-Berg, J.A. Bakal, and R.F. Murphy (2012) [OMERO.searcher: Content-based image search for microscope images](http://www.nature.com/nmeth/journal/v9/n7/full/nmeth.2086.html). Nature Methods 9:633-634.
+* Leejay Wu, Christos Faloutsos, Katia P. Sycara, and Terry R. Payne. 2000. [FALCON: Feedback Adaptive Loop for Content-Based Retrieval](http://www.cs.cmu.edu/~christos/PUBLICATIONS/vldb2k-falcon.pdf). In Proceedings of the 26th International Conference on Very Large Data Bases (VLDB '00), Amr El Abbadi, Michael L. Brodie, Sharma Chakravarthy, Umeshwar Dayal, Nabil Kamel, Gunter Schlageter, and Kyu-Young Whang (Eds.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 297-306.
