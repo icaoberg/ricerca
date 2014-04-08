@@ -15,7 +15,7 @@ For more information about ricerca, please visit http://murphylab.web.cmu.edu/so
 
 Authors
 -------
-Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy. Lane Center for Computational Biology. School of Computer Science. Carnegie Mellon University.
+Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy. [Lane Center for Computational Biology](http://lane.compbio.cmu.edu/). School of Computer Science. Carnegie Mellon University.
 
 References
 ----------
