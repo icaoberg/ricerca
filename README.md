@@ -7,19 +7,15 @@ ricerca is a python package for content-based searching of microscope images.  I
 
 For more information about ricerca, please visit http://murphylab.web.cmu.edu/software/ricerca/
 
-### Development branch status
-[![Build Status](https://travis-ci.org/icaoberg/ricerca.svg?branch=dev)](https://travis-ci.org/icaoberg/ricerca)
 
-### Master branch status
-[![Build Status](https://travis-ci.org/icaoberg/ricerca.svg?branch=master)](https://travis-ci.org/icaoberg/ricerca)
 
 Authors
 -------
-Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy
-Lane Center for Computational Biology
-School of Computer Science
-Carnegie Mellon University
-http://lane.compbio.cmu.edu/
+| Ivan Cao-Berg, Baek Hwan Cho, Jennifer Bakal and Robert F. Murphy
+| Lane Center for Computational Biology
+| School of Computer Science
+| Carnegie Mellon University
+| http://lane.compbio.cmu.edu/
 
 References
 ----------
