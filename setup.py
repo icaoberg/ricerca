@@ -34,20 +34,22 @@ def read(fname):
 
 setup(name = 'ricerca',
       version = __version__,
-      description = ('Content-based search based on FALCON: '
-      	'Feedback Adaptive Loop for Content-Based Retrieval'),
+      description = ('Content-based image search'),
       long_description=read('README'),
       author = 'Ivan Cao-Berg',
       author_email = 'icaoberg@andrew.cmu.edu',
-      install_requires=[
-      	'numpy',
-      	'scipy',
-      	'numexpr',
-      	'cython',
-      	'tables'],
+      install_requires = [
+        'numpy>=1.4.1',
+        'scipy>=0.7.2'
+        ],
       url = 'http://murphylab.web.cmu.edu/software/ricerca',
       classifiers=[
       	'Programming Language :: Python', 
       	'Intended Audience :: Science/Research',
-      	'Intended Audience :: Developers'],
+      	'Intended Audience :: Developers',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Database',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python'],
       py_modules=['ricerca.content'])

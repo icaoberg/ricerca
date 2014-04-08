@@ -1,0 +1,36 @@
+language: python
+python:
+  - "2.7"
+
+virtualenv:
+    system_site_packages: true
+
+# whitelist
+branches:
+  only:
+    - dev
+    - master
+
+before_install:
+    - echo "before_install"
+    - echo $VIRTUAL_ENV
+    - df -h
+    - date
+    - pwd
+    - uname -a
+    - python -V
+
+    # Xvfb stuff for clipboard functionality; see the travis-ci documentation
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq python-numpy libatlas-dev liblapack-dev gfortran
+    - sudo apt-get install -qq libfreeimage3
+    - sudo apt-get install -qq libpng12-dev libtiff4-dev libwebp-dev
+    - sudo apt-get install -qq python-scipy python-imaging python-matplotlib
+    - pip install nose
+
+script:
+    - python setup.py install
+    - nosetests
