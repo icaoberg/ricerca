@@ -402,5 +402,43 @@ def ranking( alpha, candidates, goodSet, normalization='zscore' ):
 
  return [sorted_iids, sorted_scores]
 
+def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearchSet):
 
+    '''
+    @param contentDB
+    @param imageRefs
+    @param processIDs
+    @param processSearchSet
+    @param dscale
+    @return final_result
+
+    contentDB can be a conglomeration of several contentDBs
+
+    imageRefs has format imageRefs[image_ID]=[(image_scale,image_dna_reference_ID),similarity] 
+        where image_ID is platform specific and similarity is 1 for images most similar and -1 for images most dissimilar
+
+    processIDs is a function which takes a row from the contentDB and converts it to a platform specific ID to be used for output
+
+    processSearchSet is a function which takes as input the contentDB, an imageRefs with format 
+        imageRefs[image_id]=(image_scale,image_dna_reference_ID), and the contentDB scale determined from
+        the scales of the images and returns a list formatted for the ranking search with each row of the format:
+        [image_info_for_output,1,[features]]
+
+    '''
+
+    finalResults={}
+
+    allScales = contentDB.keys()
+    allScales.remove('info')
+    allScales.sort()
+
+    startScale=getDBstartScale(allScales, imageRefs)
+    startIndex=allScales.index(startScale)
+
+    for x in range(startIndex, len(allScales)):
+        searchScale=allScales[x]
+        results=rankingWrapper(contentDB, imageRefs, processIDs, processSearchSet,searchScale)
+        finalResults[searchScale]=results
+    
+    return finalResults
 
