@@ -3,16 +3,10 @@
 # Author: Ivan Cao-Berg, Baek Cho and Jennifer Bakal
 # Created: December, 2011
 #
-# Copyright (C) 2011-2013 Murphy Lab
+# Copyright (C) 2011-2018 Murphy Lab
 # Lane Center for Computational Biology
 # School of Computer Science
 # Carnegie Mellon University
-#
-# February 27,2013 J. Bakal Moved combinePosandNeg function from
-#                           searchContent.py/omero.searcher.py
-#                           Added rankingWrapper
-#
-# March 27, 2013   J. Bakal Updated rankingWrapper
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published
@@ -31,6 +25,13 @@
 #
 # For additional information visit http://murphylab.web.cmu.edu or
 # send email to murphy@cmu.edu
+
+# February 27,2013 bakalj Moved combinePosandNeg function from
+# searchContent.py/omero.searcher.py and added rankingWrapper
+#
+# March 27, 2013 bakalj Updated rankingWrapper
+#
+# January 8, 2018 icaoberg Added methods to use with OMERO.searcher local client
 
 import numpy
 import scipy
@@ -403,7 +404,6 @@ def ranking( alpha, candidates, goodSet, normalization='zscore' ):
  return [sorted_iids, sorted_scores]
 
 def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearchSet):
-
     '''
     @param contentDB
     @param imageRefs
@@ -441,4 +441,26 @@ def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearch
         finalResults[searchScale]=results
     
     return finalResults
+
+def getDBstartScale(allScales, imageRefs):
+    '''
+    @param allScales
+    @param imageRefs
+
+    Determine resolution to use
+
+    '''                                              
+    dscale = allScales[0]
+    
+    scale = max([val[0][0] for val in imageRefs.values()])
+    print 'Scale from query images is',scale
+
+    #find scale in the dictionary closest to the scale of the local images
+    for key in allScales:
+        if abs(key - scale) < abs(dscale - scale):
+            dscale = key
+
+    print 'Scale(s) from database is', dscale
+
+    return dscale
 
