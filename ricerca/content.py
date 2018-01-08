@@ -403,6 +403,28 @@ def ranking( alpha, candidates, goodSet, normalization='zscore' ):
 
  return [sorted_iids, sorted_scores]
 
+def getDBstartScale(allScales, imageRefs):
+    '''
+    @param allScales
+    @param imageRefs
+
+    Determine resolution to use
+
+    '''                                              
+    dscale = allScales[0]
+    
+    scale = max([val[0][0] for val in imageRefs.values()])
+    print 'Scale from query images is',scale
+
+    #find scale in the dictionary closest to the scale of the local images
+    for key in allScales:
+        if abs(key - scale) < abs(dscale - scale):
+            dscale = key
+
+    print 'Scale(s) from database is', dscale
+
+    return dscale
+
 def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearchSet):
     '''
     @param contentDB
@@ -441,26 +463,3 @@ def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearch
         finalResults[searchScale]=results
     
     return finalResults
-
-def getDBstartScale(allScales, imageRefs):
-    '''
-    @param allScales
-    @param imageRefs
-
-    Determine resolution to use
-
-    '''                                              
-    dscale = allScales[0]
-    
-    scale = max([val[0][0] for val in imageRefs.values()])
-    print 'Scale from query images is',scale
-
-    #find scale in the dictionary closest to the scale of the local images
-    for key in allScales:
-        if abs(key - scale) < abs(dscale - scale):
-            dscale = key
-
-    print 'Scale(s) from database is', dscale
-
-    return dscale
-
