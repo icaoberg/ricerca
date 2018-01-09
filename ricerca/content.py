@@ -71,138 +71,7 @@ def getDBscales(cdb,query_scale):
     keys.remove('info')
     dbkeys=[v for v in keys if v>.75*query_scale and v<1.5*query_scale]
     return dbkeys
-
-def rankingWrapper(contentDB, image_refs_dict, processIDs, processSearchSet):
-    '''
-    Wrapper method that performs a ranking given a content database
-    '''
-
-    '''
-    @param contentDB
-    @param image_refs_dict
-    @param processIDs
-    @param processSearchSet
-    @return final_result, dscale
-
-    image_refs_dict has format image_refs_dict[image_ID]=[(image_scale,image_dna_reference_ID),similarity] 
-        where image_ID is platform specific and similarity is 1 for images most similar and -1 for images most dissimilar
-
-    processIDs is a function which takes a row from the contentDB and converts it to a platform specific ID to be used for output
-
-    processSearchSet is a function which takes as input the contentDB, an image_refs_dict with format 
-        image_refs_dict[image_id]=(image_scale,image_dna_reference_ID), and the contentDB scale determined from
-        the scales of the images and returns a list formatted for the ranking search with each row of the format:
-        [image_info_for_output,1,[features]]
-    '''
-
-    def divideImageDict(image_refs_dict):
-        pos_image_dict={}
-        neg_image_dict={}
-
-        for key,val in image_refs_dict.items():
-            if val[1]==1:
-                pos_image_dict[key]=val[0]
-            elif val[1]==-1:
-                 neg_image_dict[key]=val[0]
-
-        return pos_image_dict,neg_image_dict
-
-    def rankSearchSet(contentDB,image_refs_dict,process_IDs,processSearchSet):
-        #determine resolution to use                                                        
-        keys = contentDB.keys()
-        keys.remove('info')
-        keys.sort()
-        dscale = keys[0]
-
-        scale = max([val[0] for val in image_refs_dict.values()])
-        print 'scale from query images is',scale
-
-        #find scale in the dictionary closest to the scale of the local images              
-        for key in keys:
-            if abs(key - scale) < abs(dscale - scale):
-                dscale = key
-
-        print 'scale/s from database is', dscale
-
-        if not contentDB.has_key( dscale ):
-            sys.exit("System error - scale not found in content database.")
-        else:
-            data=contentDB[dscale]
-
-        dataset=[]
-        for cdb_row in data:
-            ID=processIDs(cdb_row)
-            feat_vec = list(cdb_row[11:])
-            dataset.append([ID,0,feat_vec])
-
-        search_set=processSearchSet(contentDB, image_refs_dict, dscale)
-
-        alpha = -5
-
-        #RANKING IMAGES USING RICERCA                                                       
-        print "Ranking images"
-        normalization = 'zscore'
-        if search_set:
-            [sorted_iids,sorted_scores] = ranking( alpha, dataset, search_set, normalization )
-            return [sorted_iids, sorted_scores, dscale]
-        else:
-             return [[],[],0]
-
-
-    def combinePosandNeg(pos_sorted,neg_sorted):
-        #reverse negative list before averaging                                             
-        neg_sorted.reverse()
-
-        img_avg=[]
-        rank=range(len(pos_sorted))
-        pos_sort_rank=zip(pos_sorted,rank)
-        neg_sort_rank=zip(neg_sorted,rank)
-        pos_sort_rank.sort(key=lambda img:img[0])
-        neg_sort_rank.sort(key=lambda img:img[0])
-        for j in range(len(pos_sort_rank)):
-            if pos_sort_rank[j][0]==neg_sort_rank[j][0]:
-                img_rank=(pos_sort_rank[j][0],float(pos_sort_rank[j][1]+neg_sort_rank[j][1])/2)
-                img_avg.append(img_rank)
-
-        #sort by rank                                                                       
-        img_avg.sort(key=lambda img:img[1])
-
-        avg_sorted=[]
-        for img in img_avg:
-            avg_sorted.append(img[0])
-
-        return avg_sorted
-
-    #separate positive and negative images                                                  
-    pos_image_dict,neg_image_dict=divideImageDict(image_refs_dict)
-
-    #rank database images based on positive images                                          
-    if pos_image_dict:
-        try:                                                                               
-            [sorted_iids_pos, sorted_scores_pos, dscale] = rankSearchSet(contentDB, pos_image_dict, processIDs, processSearchSet)
-        except:                                                                            
-            return [],0                                                                   
-
-    #rank database images based on negative images
-    if neg_image_dict:
-        try:
-            [sorted_iids_neg, sorted_scores_neg, dscale] = rankSearchSet(contentDB, neg_image_dict, processIDs, processSearchSet)
-        except:
-            return [],0
-
-    #combine &/or report rankings
-    if pos_image_dict:
-        if neg_image_dict: #there are both positive and negative samples
-            final_result = combinePosandNeg(sorted_iids_pos,sorted_iids_neg)
-            final_result = (final_result, None)
-        else:              #there are only positive samples
-            final_result = (sorted_iids_pos, sorted_scores_pos)
-    elif neg_image_dict:     #there are only negative samples
-        final_result = (sorted_iids_neg, sorted_scores_neg)
-
-    return final_result,dscale
-
-
+    
 def distance( alpha, candidate, goodSet ):
  '''
  Calculates the distance between a candidate and every member of the good set
@@ -424,6 +293,134 @@ def getDBstartScale(allScales, imageRefs):
     print 'Scale(s) from database is', dscale
 
     return dscale
+
+
+def rankingWrapper(contentDB, imageRefs, processIDs, processSearchSet,dscale):
+
+    '''
+    @param contentDB
+    @param imageRefs
+    @param processIDs
+    @param processSearchSet
+    @param dscale
+    @return final_result
+
+    imageRefs has format imageRefs[image_ID]=[(image_scale,image_dna_reference_ID),similarity] 
+        where image_ID is platform specific and similarity is 1 for images most similar and -1 for images most dissimilar
+
+    processIDs is a function which takes a row from the contentDB and converts it to a platform specific ID to be used for output
+
+    processSearchSet is a function which takes as input the contentDB, an imageRefs with format 
+        imageRefs[image_id]=(image_scale,image_dna_reference_ID), and the contentDB scale determined from
+        the scales of the images and returns a list formatted for the ranking search with each row of the format:
+        [image_info_for_output,1,[features]]
+    
+    dscale is the key in the database against which the search is being made
+    '''
+
+    def divideImageDict(imageRefs):
+        pos_image_dict={}
+        neg_image_dict={}
+
+        for key,val in imageRefs.items():
+            if val[1]==1:
+                pos_image_dict[key]=val[0]
+            elif val[1]==-1:
+                 neg_image_dict[key]=val[0]
+
+        return pos_image_dict,neg_image_dict
+
+    def rankSearchSet(contentDB,imageRefs,process_IDs,processSearchSet,dscale):
+        
+        print 'rankSearchSet using dscale: '+str(dscale)
+
+        if not contentDB.has_key( dscale ):
+            sys.exit("System error - scale not found in content database.")
+        else:
+            data=contentDB[dscale]
+            
+#        print len(data)
+#        for key in imageRefs:
+#            idpart=key[19:28]
+#            for x in data:
+#                if idpart in x[5]:
+#                    print x
+
+        dataset=[]
+        for cdb_row in data:
+            ID=processIDs(cdb_row)
+            feat_vec = list(cdb_row[11:])
+            dataset.append([ID,0,feat_vec])
+
+        search_set=processSearchSet(contentDB, imageRefs, dscale)
+        print "search set has "+str(len(search_set))+" images"
+
+        alpha = -5
+
+        #RANKING IMAGES USING RICERCA                                                       
+        print "Ranking images"
+        normalization = 'zscore'
+        if search_set:
+            [sorted_iids,sorted_scores] = ranking( alpha, dataset, search_set, normalization )
+            return [sorted_iids, sorted_scores]
+        else:
+             return [[],[]]
+
+
+    def combinePosandNeg(pos_sorted,neg_sorted):
+        #reverse negative list before averaging                                             
+        neg_sorted.reverse()
+
+        img_avg=[]
+        rank=range(len(pos_sorted))
+        pos_sort_rank=zip(pos_sorted,rank)
+        neg_sort_rank=zip(neg_sorted,rank)
+        pos_sort_rank.sort(key=lambda img:img[0])
+        neg_sort_rank.sort(key=lambda img:img[0])
+        for j in range(len(pos_sort_rank)):
+            if pos_sort_rank[j][0]==neg_sort_rank[j][0]:
+                img_rank=(pos_sort_rank[j][0],float(pos_sort_rank[j][1]+neg_sort_rank[j][1])/2)
+                img_avg.append(img_rank)
+
+        #sort by rank                                                                       
+        img_avg.sort(key=lambda img:img[1])
+
+        avg_sorted=[]
+        for img in img_avg:
+            avg_sorted.append(img[0])
+
+        return avg_sorted
+
+#JENN - check this    dscale=0
+    final_result=[]
+
+    #separate positive and negative images
+    pos_image_dict,neg_image_dict=divideImageDict(imageRefs)
+
+    #rank database images based on positive images                            
+    if pos_image_dict:
+        try:
+            [sorted_iids_pos, sorted_scores_pos] = rankSearchSet(contentDB, pos_image_dict, processIDs, processSearchSet, dscale)
+        except:
+            return []
+
+    #rank database images based on negative images
+    if neg_image_dict:
+        try:
+            [sorted_iids_neg, sorted_scores_neg] = rankSearchSet(contentDB, neg_image_dict, processIDs, processSearchSet, dscale)
+        except:
+            return []
+
+    #combine &/or report rankings
+    if pos_image_dict:
+        if neg_image_dict: #there are both positive and negative samples
+            final_result = combinePosandNeg(sorted_iids_pos,sorted_iids_neg)
+        else:              #there are only positive samples
+            final_result = sorted_iids_pos
+    elif neg_image_dict:     #there are only negative samples
+        final_result = sorted_iids_neg
+
+    return final_result
 
 def rankingWrapperWithDownsample(contentDB, imageRefs, processIDs, processSearchSet):
     '''
